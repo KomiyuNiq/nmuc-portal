@@ -18,7 +18,7 @@ if (!$type || !$id) {
 if ($type === 'change_programme') {
     $stmt = $pdo->prepare("SELECT c.*, u.username AS user_matrix, u.email AS user_email
                            FROM changeprogramforms c 
-                           LEFT JOIN Users u ON c.student_id = u.user_id 
+                           LEFT JOIN users u ON c.student_id = u.user_id 
                            WHERE c.form_id = ?");
     $stmt->execute([$id]);
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -27,7 +27,7 @@ if ($type === 'change_programme') {
     // Tries DefermentForms first, then falls back to deferment_applications if needed
     $stmt = $pdo->prepare("SELECT d.*, u.username AS user_matrix, u.email AS user_email, u.full_name AS user_full_name
                            FROM DefermentForms d 
-                           LEFT JOIN Users u ON d.student_id = u.user_id 
+                           LEFT JOIN users u ON d.student_id = u.user_id 
                            WHERE d.form_id = ?");
     $stmt->execute([$id]);
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -43,7 +43,7 @@ if ($type === 'change_programme') {
 } elseif ($type === 'withdrawal') {
     $stmt = $pdo->prepare("SELECT w.*, u.username AS user_matrix, u.email AS user_email
                            FROM withdrawalforms w 
-                           LEFT JOIN Users u ON w.student_id = u.user_id 
+                           LEFT JOIN users u ON w.student_id = u.user_id 
                            WHERE w.form_id = ?");
     $stmt->execute([$id]);
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
