@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($username) || empty($password)) {
         $error = "Please fill in all required fields.";
     } else {
-        $stmt = $pdo->prepare("SELECT * FROM Users WHERE username = :username AND role = 'Staff'");
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username AND role = 'Staff'");
         $stmt->execute(['username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
