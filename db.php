@@ -3,11 +3,16 @@ $host   = getenv('DB_HOST')   ?: 'localhost';
 $user   = getenv('DB_USER')   ?: 'root';
 $pass   = getenv('DB_PASS')   ?: '';
 $dbname = getenv('DB_NAME')   ?: 'nmuc_portal';
-$port   = getenv('DB_PORT')   ?: '3306';
+$port   = (int)(getenv('DB_PORT') ?: 3306);
 
-$conn = new mysqli($host, $user, $pass, $dbname, (int)$port);
+$conn = mysqli_init();
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Enable SSL when connecting to external cloud hosts like Aiven
+if ($host !== 'localhost' && $host !== '127.0.0.1') {
+    $conn->ssl_set(NULL, NULL, NULL, NULL, NULL);
+}
+
+if (!$conn->real_connect($host, $user, $pass, $dbname, $port, NULL, MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT)) {
+    die("Connection failed: " . mysqli_connect_error());
 }
 ?>
