@@ -1,13 +1,13 @@
 <?php
-$host = 'localhost';
-$dbname = 'nmuc_portal';
-$username = 'root';
-$password = '';
+$host   = getenv('DB_HOST')   ?: 'localhost';
+$user   = getenv('DB_USER')   ?: 'root';
+$pass   = getenv('DB_PASS')   ?: '';
+$dbname = getenv('DB_NAME')   ?: 'nmuc_portal';
+$port   = getenv('DB_PORT')   ?: '3306';
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Database Connection Error: " . $e->getMessage());
+$conn = new mysqli($host, $user, $pass, $dbname, (int)$port);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 ?>
