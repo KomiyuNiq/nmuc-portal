@@ -26,7 +26,7 @@ if ($type === 'change_programme') {
 } elseif ($type === 'deferment') {
     // Tries DefermentForms first, then falls back to deferment_applications if needed
     $stmt = $pdo->prepare("SELECT d.*, u.username AS user_matrix, u.email AS user_email, u.full_name AS user_full_name
-                           FROM DefermentForms d 
+                           FROM defermentdorms d 
                            LEFT JOIN users u ON d.student_id = u.user_id 
                            WHERE d.form_id = ?");
     $stmt->execute([$id]);
